@@ -1,52 +1,28 @@
-"use client";
+'use client'
 
 import { authClient } from "@/lib/auth-client";
 import {Check} from "@gravity-ui/icons";
 import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
-
-
-const Signuppage = () => {
-    const onSubmit =async (e) => {
-    e.preventDefault();
-    const formData=new FormData(e.currentTarget);
+const SignInpage = () => {
+    const onSubmit=async(e)=>{
+        e.preventDefault()
+        const formData=new FormData(e.currentTarget);
     const userdata=Object.fromEntries(formData.entries())
     console.log('form submitted',userdata)
-    const{data,error}=await authClient.signUp.email({
-        name:userdata.name,
+    const {data,error}=await authClient.signIn.email({
         email:userdata.email,
         password:userdata.password,
+        rememberMe:true,
         callbackURL:'/'
-
-
     })
     console.log('Sign up response',{data,error})
-    if(error){
-      alert('Error signing up:'+error.message)
     }
-    if(data){
-      alert('Sining up successfully!')
-    }
-  };
-
     return (
         <div>
-           <h3 className='text-3xl font-bold text-gray-400' >Please sign up</h3>
-               <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
-                {/* name */}
-                 <TextField
-            isRequired
-            name="name"
-            validate={(value) => {
-              if (value.length < 3) {
-                return "Name must be at least 3 characters";
-              }
-              return null;
-            }}
-          >
-            <Label>Name</Label>
-            <Input name="name" placeholder="Your name" />
-            <FieldError />
-          </TextField>
+            <h2 className="text-3xl font-bold text-gray-500">Please sign In</h2>
+            <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+                
+                 
                 {/* email */}
       <TextField
         isRequired
@@ -96,9 +72,8 @@ const Signuppage = () => {
         </Button>
       </div>
     </Form>
-
         </div>
     );
 };
 
-export default Signuppage;
+export default SignInpage;
